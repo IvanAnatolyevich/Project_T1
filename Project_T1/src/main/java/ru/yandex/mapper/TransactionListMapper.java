@@ -7,7 +7,6 @@ import ru.yandex.model.dto.TransactionDto;
 
 import java.util.List;
 
-@Component
 @Mapper(componentModel = "spring", uses = TransactionMapper.class)
 public interface TransactionListMapper {
     List<Transaction> toEntity(List<TransactionDto> transactionDto);
