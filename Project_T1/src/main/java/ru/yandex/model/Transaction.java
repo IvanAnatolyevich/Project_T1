@@ -1,11 +1,10 @@
 package ru.yandex.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,8 +16,10 @@ import java.time.LocalDate;
 @Table(name = "Transaction")
 public class Transaction {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     private Long accountId;
     private long amount;
-    private LocalDate date;
+    private LocalDateTime timestamp = LocalDateTime.now();
 }

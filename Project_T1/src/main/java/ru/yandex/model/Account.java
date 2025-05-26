@@ -1,8 +1,6 @@
 package ru.yandex.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -15,8 +13,11 @@ import lombok.*;
 @Table(name = "Account")
 public class Account {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     private AccountType type;
     private long balance;
+    @NonNull
     private Long clientId;
 }
