@@ -38,7 +38,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{transactionId}")
-    @LogDataSourceErrorcd
+    @LogDataSourceError
     public void deleteTransaction(@PathVariable Long transactionId) {
         transactionService.deleteTransaction(transactionId);
     }
