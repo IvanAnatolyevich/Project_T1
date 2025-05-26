@@ -1,5 +1,6 @@
 package ru.yandex.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,31 +15,28 @@ import java.util.List;
 @RestController
 @RequestMapping("/transactions")
 @RequiredArgsConstructor
+@LogDataSourceError
 public class TransactionController {
     private final TransactionService transactionService;
     @PostMapping
-    @LogDataSourceError
-    public ResponseEntity<TransactionDto> addTransaction(@RequestBody Transaction transaction) {
+    public ResponseEntity<TransactionDto> addTransaction(@RequestBody @Valid Transaction transaction) {
         TransactionDto transactionDto = transactionService.addTransaction(transaction);
         return new ResponseEntity<>(transactionDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{transactionId}")
-    @LogDataSourceError
     public ResponseEntity<TransactionDto> getTransaction(@PathVariable Long transactionId) {
         TransactionDto transactionDto = transactionService.getTransaction(transactionId);
         return new ResponseEntity<>(transactionDto, HttpStatus.OK);
     }
 
     @GetMapping
-    @LogDataSourceError
     public ResponseEntity<List<TransactionDto>> getTransactions(@RequestParam int size) {
         List<TransactionDto> transactions = transactionService.getAllTransactions(size);
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
     @DeleteMapping("/{transactionId}")
-    @LogDataSourceError
     public void deleteTransaction(@PathVariable Long transactionId) {
         transactionService.deleteTransaction(transactionId);
     }

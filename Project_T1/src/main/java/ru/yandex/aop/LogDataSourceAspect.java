@@ -15,7 +15,7 @@ import ru.yandex.repository.DataSourceErrorLogRepository;
 public class LogDataSourceAspect {
     private final DataSourceErrorLogRepository dataSourceErrorLogRepository;
 
-    @Around("@annotation(LogDataSourceError)")
+    @Around("within(@ru.yandex.aop.annotation.LogDataSourceError *)")
     public Object logErrors(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         try {
             return proceedingJoinPoint.proceed();

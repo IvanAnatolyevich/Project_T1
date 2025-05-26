@@ -15,7 +15,9 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     private AccountType type;
     private long balance;
+    @NonNull
     private Long clientId;
 }
