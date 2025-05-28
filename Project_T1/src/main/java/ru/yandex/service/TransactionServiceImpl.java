@@ -2,6 +2,8 @@ package ru.yandex.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.yandex.aop.annotation.Cached;
+import ru.yandex.aop.annotation.Metric;
 import ru.yandex.repository.TransactionRepository;
 import ru.yandex.exception.NotFoundException;
 import ru.yandex.mapper.TransactionListMapper;
@@ -31,6 +33,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Metric
+    @Cached
     public List<TransactionDto> getAllTransactions(int size) {
         List<Transaction> transactions = transactionRepository.findAll();
         if (transactions.isEmpty()) {
@@ -40,6 +44,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Metric
+    @Cached
     public TransactionDto getTransaction(Long id) {
         Optional<Transaction> transaction = transactionRepository.findById(id);
         if (transaction.isPresent()) {
