@@ -2,6 +2,8 @@ package ru.yandex.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.yandex.aop.annotation.Cached;
+import ru.yandex.aop.annotation.Metric;
 import ru.yandex.exception.NotFoundException;
 import ru.yandex.mapper.AccountMapper;
 import ru.yandex.model.Account;
@@ -17,6 +19,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     @Override
+    @Metric
+    @Cached
     public AccountDto getAccountById(Long accountId) {
         Optional<Account> account = accountRepository.findById(accountId);
         if (account.isPresent()) {
