@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.aop.annotation.LogDataSourceError;
 import ru.yandex.model.Account;
 import ru.yandex.model.dto.AccountDto;
 import ru.yandex.service.AccountService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
+@LogDataSourceError
 public class AccountController {
 
     private final AccountService accountService;
@@ -22,7 +25,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody Account account) {
+    public ResponseEntity<AccountDto> createAccount(@RequestBody @Valid Account account) {
         return new ResponseEntity<>(accountService.createAccount(account), HttpStatus.CREATED);
     }
 

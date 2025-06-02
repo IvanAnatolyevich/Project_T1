@@ -1,8 +1,9 @@
 package ru.yandex.model;
 
 import jakarta.persistence.*;
-
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,12 +12,12 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "DataSourceErrorLog")
-public class DataSourceErrorLog {
+@Table(name = "TimeLimitExceedLog")
+public class TimeLimitExceedLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String textStackTrace;
-    private String message;
     private String signature;
+    private Long executionTimeMs;
+    private LocalDateTime timestamp;
 }
