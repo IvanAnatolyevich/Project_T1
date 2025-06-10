@@ -57,15 +57,21 @@ public class TransactionServiceImpl implements TransactionService {
         if (!account.getStatus().equals(AccountStatus.OPEN)) {
             return;
         }
-
+        long rejectedCount = transactionRepository.countByAccountIdAndStatus(account.getAccountId(), TransactionStatus.REJECTED);
+        if (rejectedCount >= rejectThreshold) {
+            account.setStatus(AccountStatus.ARRESTED);
+            accountRepository.save(account);
+        }
         boolean isBlacklisted = checkClientStatus(dto.getClientId().toString(), dto.getAccountId().toString());
         TransactionStatus transactionStatus;
         if (isBlacklisted) {
             account.setStatus(AccountStatus.BLOCKED);
             transactionStatus = TransactionStatus.REJECTED;
             accountRepository.save(account);
+        } else if (account.getStatus().equals(AccountStatus.ARRESTED)) {
+            transactionStatus = TransactionStatus.REJECTED;
         } else {
-            transactionStatus = TransactionStatus.ACCECPTED;
+            transactionStatus = TransactionStatus.ACCECPTED ;
         }
 
         Transaction transaction = new Transaction();
@@ -76,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setAccountId(account.getAccountId());
         transactionRepository.save(transaction);
 
-        if (transactionStatus == TransactionStatus.ACCECPTED) {
+        if (transactionStatus == TransactionStatus.ACCECPTED ) {
             account.setBalance(account.getBalance() + dto.getAmount());
             accountRepository.save(account);
         }
@@ -91,6 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
         );
         kafkaTemplate.send(acceptTopic, acceptDto);
     }
+
 
     @Override
     public TransactionDto addTransaction(Transaction transaction) {
