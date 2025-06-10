@@ -33,6 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountRepository accountRepository;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
+
     @Value("${kafka.topics.accept}")
     private String acceptTopic;
 
